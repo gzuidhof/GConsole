@@ -262,7 +262,7 @@ public class GConsole : MonoBehaviour
     {
         if (string.IsNullOrEmpty(param))
         {
-            return "Type [33EE33]help list [description][-] for a list of possible commands, or [33EE33]help <command>[-] for a description of a certain command.";
+            return "Type " + Color("help list [description]","33EE33") + " for a list of possible commands, or " + Color("help <command>","33EE33") + " for a description of a certain command.";
         }
         if (param == "list description" || param == "list [description]")
         {
@@ -275,9 +275,9 @@ public class GConsole : MonoBehaviour
         else if (commands.ContainsKey(param))
         {
             GConsoleCommand command = commands[param];
-            return "[33EE33]" + param  + "[-] " 
+            return Color(param, "33EE33") + " "
                 + command.description + "\n" 
-                + (command.helpText == null ? String.Empty : ("[DDDDDD]" + command.helpText + "[-]"));
+                + (command.helpText == null ? String.Empty : (Color(command.helpText,"DDDDDD")));
         }
         else
         {
