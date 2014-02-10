@@ -281,7 +281,7 @@ public class GConsole : MonoBehaviour
         }
         else
         {
-            return "Help not found for " + Color(param, "33EE33")";
+            return "Help not found for " + Color(param, "33EE33");
         }
     }
 
