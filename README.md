@@ -27,12 +27,8 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
 
 I have kept the GUI code separated from the inner workings, and creating your own GUI should be a piece of cake if you look at the existing (NGUI) UI it ships with. *If you do create one, please share it with the rest of the world (pull request!).*
 
-*One thing however, has not been separated, and that is the coloring of parts of a label.*
-If you use NGUI and you want to color part of a label, you can do this `[FF0000] Bla bla[-] bla` and it will turn that part of the label into the specified color (red here).
-
-I am still thinking of an elegant solution for this (making it more compatible with other GUI systems), if you have one, do share! 
-
 **So in short, if you are using NGUI, it's a drag and drop solution, if you are not, it shouldn't be too hard to create your own UI for it (<100 lines in current NGUI UI).**
+
 ##Usage
 ###Setup
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab). 
