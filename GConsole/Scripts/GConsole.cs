@@ -11,6 +11,9 @@ public class GConsole : MonoBehaviour
     public bool outputUnityLog = true;
     public bool outputStackTrace = true;
 
+    //NGUI color coding. Turn off if you are not using NGUI.
+    public bool useColoredText = true; 
+
     //If a command returns nothing or you print an empty string, it will still send it to listeners (the UI), which will then have to deal with that.
     public bool allowEmptyOutput = false;
 
@@ -25,14 +28,14 @@ public class GConsole : MonoBehaviour
 
     #region Default Output
 
-    private const string INVALID_COMMAND_STRING = "[FF0000]Invalid Command! [-]";
-    private const string COMMAND_NOT_FOUND_STRING = "[FF0000]Unrecognized command: [-]";
+    private const string INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000"); 
+    private const string COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
 
-    private const string ERROR_STRING = "[EEAA00]Error:  [-]";
-    private const string WARNING_STRING = "[CCAA00]Warning:  [-]";
-    private const string LOG_STRING = "[AAAAAA]Log:  [-]";
-    private const string EXCEPTION_STRING = "[FF0000]Exception:  [-]";
-    private const string ASSERT_STRING = "[0000FF]Assert:  [-]";
+    private const string ERROR_STRING = Color( "Error: ", "EEAA00");
+    private const string WARNING_STRING = Color("Warning: ", "CCAA00");
+    private const string LOG_STRING = Color("Log: ", "AAAAAA");
+    private const string EXCEPTION_STRING = Color("Exception: ","FF0000");
+    private const string ASSERT_STRING = Color("Assert: ", "0000FF");
 
     #endregion
 
@@ -79,7 +82,7 @@ public class GConsole : MonoBehaviour
             default:
                 return;
         }
-        output += logString + (instance.outputStackTrace ? "\n[AAAAAA]" + trace +"[-]": String.Empty);
+        output += logString + (instance.outputStackTrace ? "\n" + Color(trace, "AAAAAA"): String.Empty);
         Print(output);
     }
 
@@ -129,10 +132,10 @@ public class GConsole : MonoBehaviour
     /// <returns>Direct output of the method that is called</returns>
     public static string Eval(string command)
     {
-        string output;
+        string output = String.Empty;
 
         //Print what was entered, in a lightblueish color
-        Print("> [AADDFF]" + command + "[-]");
+        Print("> " + Color(command, "AADDFF"));
 
 
         if (string.IsNullOrEmpty(command)) {
@@ -189,12 +192,35 @@ public class GConsole : MonoBehaviour
         return commands.Keys
             .Where(c => c.StartsWith(inputSoFar)) //Only take those which start with the input so far
             .OrderBy(c => c.Length) //Order them by length
-            .Select(c => c + (includeDescription ?  " [CCCCCC]\t  " + commands[c].description + "[-]" : String.Empty)) //Append description if requested
-            .Select(c => "[00CCCC]" + c.Insert(inputSoFar.Length, "[-]")) //Colorcode part typed so far
+            .Select(c => c + (includeDescription ? " \t" + Color(commands[c].description, "CCCCCC") : String.Empty)) //Append description if requested
+
+            .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length-1)) //Color part typed so far
+
             .ToList(); //Convert to list
     }
 
     #endregion
+
+    /// <summary>
+    /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
+    /// </summary>
+    public static string Color(string text, string colorCode) {
+
+        if(instance.useColoredText) {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append("[");
+            sb.Append(colorCode);
+            sb.Append("]");
+            sb.Append(text);
+            sb.Append("[-]");
+            return sb.ToString();
+        }
+        else {
+            return text;
+        }
+    }
+
+
 
     #region Printing and Output Sending to Listeners
     private static string SendOutputToListeners(string output)
@@ -269,7 +295,7 @@ public class GConsole : MonoBehaviour
 
             foreach (string command in commands.Keys)
             {
-                result += command + " \t[AAAAAA]  " + commands[command].description + "[-]" + "\n";
+                result += command + " \t" + Color(commands[command].description, "AAAAAA") + "\n";
             }
 
             return result;
