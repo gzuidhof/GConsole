@@ -28,14 +28,15 @@ public class GConsole : MonoBehaviour
 
     #region Default Output
 
-    private const string INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000"); 
-    private const string COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
+    //Set in Awake
+    private static string INVALID_COMMAND_STRING;
+    private static string COMMAND_NOT_FOUND_STRING;
 
-    private const string ERROR_STRING = Color( "Error: ", "EEAA00");
-    private const string WARNING_STRING = Color("Warning: ", "CCAA00");
-    private const string LOG_STRING = Color("Log: ", "AAAAAA");
-    private const string EXCEPTION_STRING = Color("Exception: ","FF0000");
-    private const string ASSERT_STRING = Color("Assert: ", "0000FF");
+    private static string ERROR_STRING;
+    private static string WARNING_STRING;
+    private static string LOG_STRING;
+    private static string EXCEPTION_STRING;
+    private static string ASSERT_STRING;
 
     #endregion
 
@@ -45,6 +46,18 @@ public class GConsole : MonoBehaviour
     {
         instance = this;
         DontDestroyOnLoad(this);
+
+     INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
+     COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
+
+     ERROR_STRING = Color("Error: ", "EEAA00");
+     WARNING_STRING = Color("Warning: ", "CCAA00");
+     LOG_STRING = Color("Log: ", "AAAAAA");
+     EXCEPTION_STRING = Color("Exception: ", "FF0000");
+     ASSERT_STRING = Color("Assert: ", "0000FF");
+
+
+
     }
 
     void Start()
@@ -194,7 +207,7 @@ public class GConsole : MonoBehaviour
             .OrderBy(c => c.Length) //Order them by length
             .Select(c => c + (includeDescription ? " \t" + Color(commands[c].description, "CCCCCC") : String.Empty)) //Append description if requested
 
-            .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length-1)) //Color part typed so far
+            .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length)) //Color part typed so far
 
             .ToList(); //Convert to list
     }
@@ -205,7 +218,6 @@ public class GConsole : MonoBehaviour
     /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
     /// </summary>
     public static string Color(string text, string colorCode) {
-
         if(instance.useColoredText) {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append("[");
