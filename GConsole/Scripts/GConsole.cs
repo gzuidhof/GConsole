@@ -47,16 +47,14 @@ public class GConsole : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this);
 
-     INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
-     COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
+         INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
+         COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
 
-     ERROR_STRING = Color("Error: ", "EEAA00");
-     WARNING_STRING = Color("Warning: ", "CCAA00");
-     LOG_STRING = Color("Log: ", "AAAAAA");
-     EXCEPTION_STRING = Color("Exception: ", "FF0000");
-     ASSERT_STRING = Color("Assert: ", "0000FF");
-
-
+         ERROR_STRING = Color("Error: ", "EEAA00");
+         WARNING_STRING = Color("Warning: ", "CCAA00");
+         LOG_STRING = Color("Log: ", "AAAAAA");
+         EXCEPTION_STRING = Color("Exception: ", "FF0000");
+         ASSERT_STRING = Color("Assert: ", "0000FF");
 
     }
 
@@ -206,13 +204,9 @@ public class GConsole : MonoBehaviour
             .Where(c => c.StartsWith(inputSoFar)) //Only take those which start with the input so far
             .OrderBy(c => c.Length) //Order them by length
             .Select(c => c + (includeDescription ? " \t" + Color(commands[c].description, "CCCCCC") : String.Empty)) //Append description if requested
-
             .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length)) //Color part typed so far
-
             .ToList(); //Convert to list
     }
-
-    #endregion
 
     /// <summary>
     /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
@@ -232,7 +226,7 @@ public class GConsole : MonoBehaviour
         }
     }
 
-
+    #endregion
 
     #region Printing and Output Sending to Listeners
     private static string SendOutputToListeners(string output)
