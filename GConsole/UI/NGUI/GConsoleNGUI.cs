@@ -52,12 +52,29 @@ public class GConsoleNGUI : MonoBehaviour {
 
     }
 
+    IEnumerator ClearInputNextFrame()
+    {
+        yield return null;
+        input.value = "";
+
+    }
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameObject.SetActive(false);
         }
+    }
+
+
+    void OnEnable()
+    {
+        //Setting the input as selected when the console is opened.
+        input.isSelected = true;
+        StartCoroutine(ClearInputNextFrame()); //Necessary because otherwise the input field will contain the letter used to open the UI.
+        //Another NGUI quirk!
     }
 
 
