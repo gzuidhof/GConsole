@@ -84,6 +84,10 @@ Two notes
 * Especially welcome are UIs for different UI frameworks (such as OpenGUI and EZ GUI).
 * The project could use a logo. 
 
+##Contributors
+[Rahazan](https://github.com/Rahazan) (Guido Zuidhof)
+[TarasOsiris](https://github.com/TarasOsiris) (Taras Leskiv)
+
 ##License
 
 MIT license (In short: Attribute me and don't hold me liable for anything).
