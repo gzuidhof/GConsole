@@ -11,7 +11,8 @@ Here are some screenshots:
 
 ##Why?
 A proper console solution didn't exist (in my eyes) on the asset store, and I can't live without one. Having a developer console ingame is great for debug purposes, and for your final product too. 
-See, for instance, Valve's games' developer console, which prints information that is otherwise not visible to the user and allows the user to send "advanced" commands, for instance changing a setting.
+
+See, for instance, Valve's game developer console, which prints information that is otherwise not visible to the user and allows the user to send "advanced" commands, for instance changing a setting.
 
 ##Features
 * Separated internals from externals (UI)
@@ -33,7 +34,7 @@ Currently there is one frontend available, for NGUI which can be found [here](ht
 ###Setup
 
 * Download this repository, put the GConsole folder somewhere in your project.
-* Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab). 
+* Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab).
 
 * Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
 * *(If using NGUI frontend)* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
