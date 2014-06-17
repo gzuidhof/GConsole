@@ -32,9 +32,10 @@ Currently there is one frontend available, for NGUI which can be found [here](ht
 ##Usage
 ###Setup
 
-* Download this repository , put the GConsole folder somewhere in your project.
-* Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
+* Download this repository, put the GConsole folder somewhere in your project.
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab). 
+
+* Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
 * *(If using NGUI frontend)* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
 
 
@@ -84,7 +85,7 @@ This returns the output of this command (useful if you want people to be able to
 
 Two notes
 
-* Especially welcome are UIs for different UI frameworks (such as OpenGUI and EZ GUI).
+* Especially welcome are front-ends for different UI frameworks (such as OpenGUI and EZ GUI).
 * The project could use a logo. 
 
 ##Contributors
