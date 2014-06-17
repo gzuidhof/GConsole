@@ -1,7 +1,7 @@
 GConsole
 ========
 
-GConsole is an ingame developer console for the Unity3D Engine. It currently ships with only a NGUI frontend (GUI).
+GConsole is an ingame developer console for the Unity3D Engine. The UI frontend for NGUI is available [here](https://github.com/Rahazan/GConsoleNGUI)
 
 Here are some screenshots:
 
@@ -16,7 +16,7 @@ See, for instance, Valve's games' developer console, which prints information th
 ##Features
 * Separated internals from externals (UI)
 * Easy to use
-* Drag 'n' drop "installation" (if you use  NGUI)
+* Drag 'n' drop "installation"
 * Suggestions feature
 * Hooks into Unity logger (if you want it to), including stacktraces.
 * Customizable
@@ -25,14 +25,18 @@ See, for instance, Valve's games' developer console, which prints information th
 ##NGUI
 GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon(tm)) in mind. 
 
-I have kept the GUI code separated from the inner workings, and creating your own GUI should be a piece of cake if you look at the existing (NGUI) UI it ships with. *If you do create one, please share it with the rest of the world (pull request!).*
+I have kept the GUI code separated from the inner workings, and creating your own GUI should be a piece of cake looking at current implementations.
 
-**So in short, if you are using NGUI, it's a drag and drop solution, if you are not, it shouldn't be too hard to create your own UI for it (<100 lines in current NGUI UI).**
+The NGUI frontend can be found here 
 
 ##Usage
 ###Setup
+
+* Download this repository , put the GConsole folder somewhere in your project.
+* Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab). 
-* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
+
+* **(If using NGUI frontend)** Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
 
 
 ###Printing to the console.
@@ -90,4 +94,4 @@ Two notes
 
 ##License
 
-MIT license (In short: Attribute me and don't hold me liable for anything).
+MIT license
