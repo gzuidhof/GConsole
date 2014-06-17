@@ -22,12 +22,12 @@ See, for instance, Valve's games' developer console, which prints information th
 * Customizable
 * Free and open source! 
 
-##NGUI
+##UI
 GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon(tm)) in mind. 
 
 I have kept the GUI code separated from the inner workings, and creating your own GUI should be a piece of cake looking at current implementations.
 
-The NGUI frontend can be found here 
+Currently there is one frontend available, for NGUI which can be found [here](https://github.com/Rahazan/GConsoleNGUI).
 
 ##Usage
 ###Setup
