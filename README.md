@@ -1,7 +1,7 @@
 GConsole
 ========
 
-GConsole is an ingame developer console for the Unity3D Engine. The UI frontend for NGUI is available [here](https://github.com/Rahazan/GConsoleNGUI)
+GConsole is an ingame developer console for the Unity3D Engine. 
 
 Here are some screenshots:
 
@@ -35,8 +35,7 @@ The NGUI frontend can be found here
 * Download this repository , put the GConsole folder somewhere in your project.
 * Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab). 
-
-* **(If using NGUI frontend)** Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
+* *(If using NGUI frontend)* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
 
 
 ###Printing to the console.
