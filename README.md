@@ -37,7 +37,7 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
 * Download this repository, put the GConsole folder somewhere in your project.
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab).
 
-* Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
+* Download a frontend.
 * See frontend page for further steps.
 
 ###Printing to the console.
@@ -86,7 +86,7 @@ This returns the output of this command (useful if you want people to be able to
 
 Two notes
 
-* Especially welcome are front-ends for different UI frameworks (such as OpenGUI and EZ GUI).
+* Especially welcome are front-ends for different UI frameworks (such as EZ GUI).
 * The project could use a logo. 
 
 ##Contributors
