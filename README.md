@@ -24,15 +24,12 @@ See, for instance, Valve's game developer console, which prints information that
 * Free and open source! 
 
 ##UI
-GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon(tm)) in mind. 
+GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon™.
 
-*Available UI Frontends:*
+###*Available UI Front-ends:*
 
-###NGUI
-[NGUI](https://github.com/Rahazan/GConsoleNGUI).
-
-###OpenGUI
-Currently in development by MuNgLo, coming soon!
+* [NGUI](https://github.com/Rahazan/GConsoleNGUI)
+* OpenGUI in development by [MuNgLo](https://github.com/MuNgLo)
 
 ##Usage
 ###Setup
@@ -41,9 +38,7 @@ Currently in development by MuNgLo, coming soon!
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab).
 
 * Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
-* See frontend readme for further steps.
-* *(If using NGUI frontend)* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
-
+* See frontend page for further steps.
 
 ###Printing to the console.
 	GConsole.Print("Hello world");
