@@ -26,9 +26,13 @@ See, for instance, Valve's game developer console, which prints information that
 ##UI
 GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon(tm)) in mind. 
 
-I have kept the GUI code separated from the inner workings, and creating your own GUI should be a piece of cake looking at current implementations.
+*Available UI Frontends:*
 
-Currently there is one frontend available, for NGUI which can be found [here](https://github.com/Rahazan/GConsoleNGUI).
+###NGUI
+[NGUI](https://github.com/Rahazan/GConsoleNGUI).
+
+###OpenGUI
+Currently in development by MuNgLo, coming soon!
 
 ##Usage
 ###Setup
@@ -37,6 +41,7 @@ Currently there is one frontend available, for NGUI which can be found [here](ht
 * Pop a GConsole script on any (enabled) GameObject in your scene (or drop in the provided prefab).
 
 * Download a frontend, such as the [NGUI front-end](https://github.com/Rahazan/GConsoleNGUI).
+* See frontend readme for further steps.
 * *(If using NGUI frontend)* Put the GConsolePanel prefab in your NGUI hierarchy (somewhere under the camera). There is a script attached that enables/disables (shows and hides) the UI on button down (P by default).
 
 
