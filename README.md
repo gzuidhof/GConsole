@@ -42,10 +42,13 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
 * See frontend page for further steps.
 
 ###Printing to the console.
-	GConsole.Print("Hello world");
+```csharp
+GConsole.Print("Hello world");
+```
 ###Adding a command
-	GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
-
+```csharp
+GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
+```
 * The first argument is the command name
 * The second argument is a description
 * **The third argument is a method which returns a string and takes one parameter: a string. It doesn't matter whether it's private, internal, protected or public. What this method returns is what is printed to the console.**
@@ -53,7 +56,7 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
 
 
 **Full Example**
-
+```csharp
 	public class GConsoleQuit : MonoBehaviour {
 
 	void Start () {
@@ -73,11 +76,12 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
         }
     }
 	}
-    
+``` 
 ###Dynamically calling a command
 If for some reason you want to call a command dynamically (from code, perhaps from some sort of script file), you can do that.
-
-	GUIConsole.Eval(cmd);
+```csharp
+GUIConsole.Eval(cmd);
+```
 Where cmd is a string, just like the user would have typed it into the console. 
 
 This returns the output of this command (useful if you want people to be able to use console commands from say, a chat window, where if they prepend a "/" it's evaluated by the console, and then you print what this returns in that window).
