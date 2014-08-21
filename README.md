@@ -57,7 +57,7 @@ GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
 
 **Full Example**
 ```csharp
-	public class GConsoleQuit : MonoBehaviour {
+public class GConsoleQuit : MonoBehaviour {
 
 	void Start () {
 	    GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
@@ -75,7 +75,7 @@ GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
             return null; //No point in returning a message if the application has already shut down.
         }
     }
-	}
+}
 ``` 
 ###Dynamically calling a command
 If for some reason you want to call a command dynamically (from code, perhaps from some sort of script file), you can do that.
