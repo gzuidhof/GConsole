@@ -28,6 +28,7 @@ GConsole has been developed with no particular GUI system in mind, in fact, it w
 
 ###*Available UI Front-ends:*
 
+* [uGUI](https://github.com/MuNgLo/GConsole-uGUI/) by MuNgLo (work in progress)
 * [NGUI](https://github.com/Rahazan/GConsoleNGUI) (.unitypackage available [here](https://github.com/Rahazan/GConsoleNGUI/releases))
 * [OpenGUI](https://github.com/MuNgLo/GConsoleOGUI) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsoleOGUI/releases))
 
