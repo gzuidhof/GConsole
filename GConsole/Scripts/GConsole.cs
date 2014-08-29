@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -11,8 +11,10 @@ public class GConsole : MonoBehaviour
     public bool outputUnityLog = true;
     public bool outputStackTrace = true;
 
-    //NGUI color coding. Turn off if you are not using NGUI.
+    //Use RichText Color coding
     public bool useColoredText = true; 
+	//NGUI color coding. Turn on if you are using NGUI.
+	public bool useNGUIColorCodes = false;
 
     //If a command returns nothing or you print an empty string, it will still send it to listeners (the UI), which will then have to deal with that.
     public bool allowEmptyOutput = false;
@@ -212,16 +214,23 @@ public class GConsole : MonoBehaviour
     /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
     /// </summary>
     public static string Color(string text, string colorCode) {
-        if(instance.useColoredText) {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append("[");
-            sb.Append(colorCode);
-            sb.Append("]");
-            sb.Append(text);
-            sb.Append("[-]");
-            return sb.ToString();
-        }
-        else {
+        if (instance.useColoredText && instance.useNGUIColorCodes == false) {
+						System.Text.StringBuilder sb = new System.Text.StringBuilder ();
+						sb.Append("<color=#");
+						sb.Append(colorCode);
+						sb.Append(">");
+						sb.Append(text);
+						sb.Append("</color>");
+						return sb.ToString();
+				} else if (instance.useColoredText && instance.useNGUIColorCodes == true) {
+						System.Text.StringBuilder sb = new System.Text.StringBuilder ();
+						sb.Append ("[");
+						sb.Append (colorCode);
+						sb.Append ("]");
+						sb.Append (text);
+						sb.Append ("[-]");
+						return sb.ToString ();
+				} else {
             return text;
         }
     }
