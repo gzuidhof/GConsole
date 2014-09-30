@@ -213,24 +213,32 @@ public class GConsole : MonoBehaviour
     /// <summary>
     /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
     /// </summary>
-    public static string Color(string text, string colorCode) {
-        if (instance.useColoredText && instance.useNGUIColorCodes == false) {
-						System.Text.StringBuilder sb = new System.Text.StringBuilder ();
-						sb.Append("<color=#");
-						sb.Append(colorCode);
-						sb.Append(">");
-						sb.Append(text);
-						sb.Append("</color>");
-						return sb.ToString();
-				} else if (instance.useColoredText && instance.useNGUIColorCodes == true) {
-						System.Text.StringBuilder sb = new System.Text.StringBuilder ();
-						sb.Append ("[");
-						sb.Append (colorCode);
-						sb.Append ("]");
-						sb.Append (text);
-						sb.Append ("[-]");
-						return sb.ToString ();
-				} else {
+    public static string Color(string text, string colorCode) 
+    {
+    	if (instance.useColoredText)
+    	{
+    		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
+    		if (instance.useNGUIColorCodes)
+    		{
+			sb.Append ("[");
+			sb.Append (colorCode);
+			sb.Append ("]");
+			sb.Append (text);
+			sb.Append ("[-]");
+			return sb.ToString ();	
+    		}
+    		else //Unity UI text coloring
+    		{
+ 			sb.Append("<color=#");
+			sb.Append(colorCode);
+			sb.Append(">");
+			sb.Append(text);
+			sb.Append("</color>");
+			return sb.ToString();	
+    		}
+    	}
+	else 
+	{
             return text;
         }
     }
@@ -238,6 +246,7 @@ public class GConsole : MonoBehaviour
     #endregion
 
     #region Printing and Output Sending to Listeners
+    
     private static string SendOutputToListeners(string output)
     {
         if (OnOutput != null)
