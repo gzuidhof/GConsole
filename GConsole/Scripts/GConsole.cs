@@ -12,9 +12,11 @@ public class GConsole : MonoBehaviour
     public bool outputStackTrace = true;
 
     //Use RichText Color coding
-    public bool useColoredText = true; 
-	//NGUI color coding. Turn on if you are using NGUI.
-	public bool useNGUIColorCodes = false;
+    public bool useColoredText = true;
+#if UNITY_EDITOR
+    [Tooltip("Pick color codes for your GUI framework")]
+#endif
+    public ColorCodes _colorCodes = ColorCodes.Default;
 
     //If a command returns nothing or you print an empty string, it will still send it to listeners (the UI), which will then have to deal with that.
     public bool allowEmptyOutput = false;
@@ -197,9 +199,24 @@ public class GConsole : MonoBehaviour
     }
 
     /// <summary>
+    /// Get suggestions for a given (incomplete) input.
+    /// </summary>
+    /// <returns>A list of suggestions</returns>
+    public static List<GConsoleItem> GetSuggestionItems(string inputSoFar) {
+       // It is needed because GetSuggestions gives just string which difficult to use with GUI and suggestions
+       // for example its pain in the ass to use click on suggestion because it gives something like [color #00CCCC]dm_ipserver[/color] with description to Input control.
+       return commands.Keys
+          .Where(command => command.StartsWith(inputSoFar))
+          .OrderBy(command => command.Length)
+          .Select(command => new GConsoleItem(command, Color(command, "00CCCC"), Color(commands[command].description, "CCCCCC")))
+          .ToList();
+    }
+
+    /// <summary>
     /// Get suggestions for a given (incomplete) input
     /// </summary>
     /// <returns>A list of suggestions</returns>
+    [Obsolete("Use GetSuggestionItems for detailed data")]
     public static List<string> GetSuggestions(string inputSoFar, bool includeDescription = false)
     {
         return commands.Keys
@@ -217,30 +234,39 @@ public class GConsole : MonoBehaviour
     {
     	if (instance.useColoredText)
     	{
-    		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
-    		if (instance.useNGUIColorCodes)
-    		{
-			sb.Append ("[");
-			sb.Append (colorCode);
-			sb.Append ("]");
-			sb.Append (text);
-			sb.Append ("[-]");
-			return sb.ToString ();	
-    		}
-    		else //Unity UI text coloring
-    		{
- 			sb.Append("<color=#");
-			sb.Append(colorCode);
-			sb.Append(">");
-			sb.Append(text);
-			sb.Append("</color>");
-			return sb.ToString();	
-    		}
-    	}
-	else 
-	{
-            return text;
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        // Add custom ColorCodes instantiations here. Or may be use interfaces if frameworks count will be high?
+        switch (instance._colorCodes) {
+           case ColorCodes.Default:
+              sb.Append("<color=#")
+                .Append(colorCode)
+                .Append(">")
+                .Append(text)
+                .Append("</color>");
+              break;
+           case ColorCodes.NGUI:
+              sb.Append("[")
+                .Append(colorCode)
+                .Append("]")
+                .Append(text)
+                .Append("[-]");
+              break;
+           case ColorCodes.DFGUI:
+              sb.Append("[color #")
+                .Append(colorCode)
+                .Append("]")
+                .Append(text)
+                .Append("[/color]");
+              break;
         }
+
+         return sb.ToString();
+    	}
+	   else 
+	   {
+          return text;
+      }
     }
 
     #endregion
@@ -327,4 +353,46 @@ public class GConsole : MonoBehaviour
     }
 
     #endregion
+
+    // Add custom ColorCodes here to make them avaliable in Unity Inspector. Instantiate them in GConsole.Awake()
+    public enum ColorCodes {
+       Default,
+       NGUI,
+       DFGUI,
+    }
+}
+
+/// <summary>
+/// Contain main data for suggestion item.
+/// </summary>
+public struct GConsoleItem {
+   /// <summary>
+   /// Raw text command
+   /// </summary>
+   public string Raw { get; private set; }
+
+   /// <summary>
+   /// Colored text command if colors is enabled, if not then be same as <see cref="Raw"/>
+   /// </summary>
+   public string Colored { get; private set; }
+
+   /// <summary>
+   /// Description of text command if exists.
+   /// </summary>
+   public string Description { get; private set; }
+
+   public GConsoleItem(string raw, string colored, string description)
+      : this() {
+      Raw = raw;
+      Colored = colored;
+      Description = description;
+   }
+
+   public override string ToString() {
+      return string.Format("{0} \t{1}", Colored, Description);
+   }
+
+   public static implicit operator string(GConsoleItem item) {
+      return item.ToString();
+   }
 }
