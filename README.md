@@ -15,22 +15,22 @@ A proper console solution didn't exist (in my eyes) on the asset store, and I ca
 See, for instance, Valve's game developer console, which prints information that is otherwise not visible to the user and allows the user to send "advanced" commands, for instance changing a setting.
 
 ##Features
-* Separated internals from externals (UI)
+* GUI framework agnostic
 * Easy to use
 * Drag 'n' drop "installation"
 * Suggestions feature
 * Hooks into Unity logger (if you want it to), including stacktraces.
-* Customizable
+* Customizable, supports colored text
 * Free and open source! 
 
 ##UI
-GConsole has been developed with no particular GUI system in mind, in fact, it was designed with Unity's upcoming GUI (which will be released soon™.
 
 ###*Available UI Front-ends:*
 
 * [uGUI](https://github.com/MuNgLo/GConsole-uGUI/) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsole-uGUI/releases/tag/0.1.0)
 * [NGUI](https://github.com/Rahazan/GConsoleNGUI) (.unitypackage available [here](https://github.com/Rahazan/GConsoleNGUI/releases))
 * [OpenGUI](https://github.com/MuNgLo/GConsoleOGUI) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsoleOGUI/releases))
+* [DFGUI](https://github.com/baguwka/GConsoleDFGUI) by baguwka.
 
 ##Usage
 ###Setup
@@ -89,15 +89,11 @@ This returns the output of this command (useful if you want people to be able to
 ##Contribution Guidelines
 **Any contributions are welcome, including feature requests.**
 
-Two notes
-
-* Especially welcome are front-ends for different UI frameworks (such as EZ GUI).
-* The project could use a logo. 
-
 ##Contributors
 [Rahazan](https://github.com/Rahazan) (Guido Zuidhof)
 [TarasOsiris](https://github.com/TarasOsiris) (Taras Leskiv)
 [MuNgLo](https://github.com/MuNgLo) 
+[baguwka](https://github.com/baguwka)
 
 ##License
 
