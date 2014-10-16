@@ -22,6 +22,10 @@ public class GConsole : MonoBehaviour
     //Subscribe to this event for a console GUI (or anything that wants the console output)!
     public static event GConsoleListener OnOutput;
 
+    /// <summary>
+    /// <para>Color code, used to color any text. Set color in <see cref="SetColorCode"/></para>
+    /// <para>arg1 = text, arg2 = color.</para>
+    /// </summary>
     public static Func<string, string, string> Color { get; private set; }
 
    #region Default Output
@@ -184,6 +188,10 @@ public class GConsole : MonoBehaviour
 
     #region Utility Methods
 
+    /// <summary>
+    /// Set the <see cref="Color"/> code that you GUI use.
+    /// </summary>
+    /// <param name="code">arg1 is text, arg2 is color</param>
     public static void SetColorCode(Func<string, string, string> code) 
     {
        Color = code;
