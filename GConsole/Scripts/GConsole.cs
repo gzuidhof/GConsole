@@ -23,10 +23,16 @@ public class GConsole : MonoBehaviour
     public static event GConsoleListener OnOutput;
 
     /// <summary>
-    /// <para>Color code, used to color any text. Set color in <see cref="SetColorCode"/></para>
+    /// <para>Color code, used to color any text. Set color code that your GUI use.</para>
     /// <para>arg1 = text, arg2 = color.</para>
     /// </summary>
-    public static Func<string, string, string> Color { get; private set; }
+    public static Func<string, string, string> Color {
+       get { return _color; }
+       set {
+           _color = value;
+           updateDefaultMessages();
+       }
+    }
 
    #region Default Output
 
@@ -39,12 +45,13 @@ public class GConsole : MonoBehaviour
     private static string LOG_STRING;
     private static string EXCEPTION_STRING;
     private static string ASSERT_STRING;
+   private static Func<string, string, string> _color;
 
-    #endregion
+   #endregion
 
     static GConsole() 
     {
-       SetColorCode((text, color) => text);
+       Color = (text, color) => text;
     }
 
     #region Unity Callbacks
@@ -187,16 +194,6 @@ public class GConsole : MonoBehaviour
     #endregion
 
     #region Utility Methods
-
-    /// <summary>
-    /// Set the <see cref="Color"/> code that your GUI use.
-    /// </summary>
-    /// <param name="code">arg1 is text, arg2 is color</param>
-    public static void SetColorCode(Func<string, string, string> code) 
-    {
-       Color = code;
-       updateDefaultMessages();
-    }
 
     //Extract the parameters from a command (removing the first word and trimming the rest).
     private static string ExtractParameters(string command, string root)
