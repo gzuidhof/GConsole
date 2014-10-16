@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -10,11 +9,6 @@ public class GConsole : MonoBehaviour
     public static GConsole instance;
     public bool outputUnityLog = true;
     public bool outputStackTrace = true;
-
-    //Use RichText Color coding
-    public bool useColoredText = true; 
-	//NGUI color coding. Turn on if you are using NGUI.
-	public bool useNGUIColorCodes = false;
 
     //If a command returns nothing or you print an empty string, it will still send it to listeners (the UI), which will then have to deal with that.
     public bool allowEmptyOutput = false;
@@ -28,7 +22,19 @@ public class GConsole : MonoBehaviour
     //Subscribe to this event for a console GUI (or anything that wants the console output)!
     public static event GConsoleListener OnOutput;
 
-    #region Default Output
+    /// <summary>
+    /// <para>Color code, used to color any text. Set color code that your GUI use.</para>
+    /// <para>arg1 = text, arg2 = color.</para>
+    /// </summary>
+    public static Func<string, string, string> Color {
+       get { return _color; }
+       set {
+           _color = value;
+           updateDefaultMessages();
+       }
+    }
+
+   #region Default Output
 
     //Set in Awake
     private static string INVALID_COMMAND_STRING;
@@ -39,8 +45,14 @@ public class GConsole : MonoBehaviour
     private static string LOG_STRING;
     private static string EXCEPTION_STRING;
     private static string ASSERT_STRING;
+   private static Func<string, string, string> _color;
 
-    #endregion
+   #endregion
+
+    static GConsole() 
+    {
+       Color = (text, color) => text;
+    }
 
     #region Unity Callbacks
 
@@ -48,16 +60,6 @@ public class GConsole : MonoBehaviour
     {
         instance = this;
         DontDestroyOnLoad(this);
-
-         INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
-         COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
-
-         ERROR_STRING = Color("Error: ", "EEAA00");
-         WARNING_STRING = Color("Warning: ", "CCAA00");
-         LOG_STRING = Color("Log: ", "AAAAAA");
-         EXCEPTION_STRING = Color("Exception: ", "FF0000");
-         ASSERT_STRING = Color("Assert: ", "0000FF");
-
     }
 
     void Start()
@@ -69,6 +71,18 @@ public class GConsole : MonoBehaviour
         }
         LoadBuiltInCommands();
 
+    }
+
+    private static void updateDefaultMessages() 
+    {
+       INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
+       COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
+
+       ERROR_STRING = Color("Error: ", "EEAA00");
+       WARNING_STRING = Color("Warning: ", "CCAA00");
+       LOG_STRING = Color("Log: ", "AAAAAA");
+       EXCEPTION_STRING = Color("Exception: ", "FF0000");
+       ASSERT_STRING = Color("Assert: ", "0000FF");
     }
 
     private void HandleUnityLog(string logString, string trace, LogType logType)
@@ -197,9 +211,23 @@ public class GConsole : MonoBehaviour
     }
 
     /// <summary>
+    /// Get suggestions for a given (incomplete) input.
+    /// </summary>
+    /// <returns>A list of suggestions</returns>
+    public static List<GConsoleItem> GetSuggestionItems(string inputSoFar) 
+    {
+       return commands.Keys
+          .Where(command => command.StartsWith(inputSoFar))
+          .OrderBy(command => command.Length)
+          .Select(command => new GConsoleItem(command, Color(command, "00CCCC"), Color(commands[command].description, "CCCCCC")))
+          .ToList();
+    }
+
+    /// <summary>
     /// Get suggestions for a given (incomplete) input
     /// </summary>
     /// <returns>A list of suggestions</returns>
+    [Obsolete("Use GetSuggestionItems for detailed data")]
     public static List<string> GetSuggestions(string inputSoFar, bool includeDescription = false)
     {
         return commands.Keys
@@ -208,39 +236,6 @@ public class GConsole : MonoBehaviour
             .Select(c => c + (includeDescription ? " \t" + Color(commands[c].description, "CCCCCC") : String.Empty)) //Append description if requested
             .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length)) //Color part typed so far
             .ToList(); //Convert to list
-    }
-
-    /// <summary>
-    /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
-    /// </summary>
-    public static string Color(string text, string colorCode) 
-    {
-    	if (instance.useColoredText)
-    	{
-    		System.Text.StringBuilder sb = new System.Text.StringBuilder ();
-    		if (instance.useNGUIColorCodes)
-    		{
-			sb.Append ("[");
-			sb.Append (colorCode);
-			sb.Append ("]");
-			sb.Append (text);
-			sb.Append ("[-]");
-			return sb.ToString ();	
-    		}
-    		else //Unity UI text coloring
-    		{
- 			sb.Append("<color=#");
-			sb.Append(colorCode);
-			sb.Append(">");
-			sb.Append(text);
-			sb.Append("</color>");
-			return sb.ToString();	
-    		}
-    	}
-	else 
-	{
-            return text;
-        }
     }
 
     #endregion
@@ -327,4 +322,39 @@ public class GConsole : MonoBehaviour
     }
 
     #endregion
+}
+
+/// <summary>
+/// Contain main data for suggestion item.
+/// </summary>
+public struct GConsoleItem {
+   /// <summary>
+   /// Raw text command
+   /// </summary>
+   public string Raw { get; private set; }
+
+   /// <summary>
+   /// Colored text command if colors is enabled, if not then be same as <see cref="Raw"/>
+   /// </summary>
+   public string Colored { get; private set; }
+
+   /// <summary>
+   /// Description of text command if exists.
+   /// </summary>
+   public string Description { get; private set; }
+
+   public GConsoleItem(string raw, string colored, string description)
+      : this() {
+      Raw = raw;
+      Colored = colored;
+      Description = description;
+   }
+
+   public override string ToString() {
+      return string.Format("{0} \t{1}", Colored, Description);
+   }
+
+   public static implicit operator string(GConsoleItem item) {
+      return item.ToString();
+   }
 }
