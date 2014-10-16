@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -10,13 +9,6 @@ public class GConsole : MonoBehaviour
     public static GConsole instance;
     public bool outputUnityLog = true;
     public bool outputStackTrace = true;
-
-    //Use RichText Color coding
-    public bool useColoredText = true;
-#if UNITY_EDITOR
-    [Tooltip("Pick color codes for your GUI framework")]
-#endif
-    public ColorCodes _colorCodes = ColorCodes.Default;
 
     //If a command returns nothing or you print an empty string, it will still send it to listeners (the UI), which will then have to deal with that.
     public bool allowEmptyOutput = false;
@@ -30,7 +22,9 @@ public class GConsole : MonoBehaviour
     //Subscribe to this event for a console GUI (or anything that wants the console output)!
     public static event GConsoleListener OnOutput;
 
-    #region Default Output
+    public static Func<string, string, string> Color { get; private set; }
+
+   #region Default Output
 
     //Set in Awake
     private static string INVALID_COMMAND_STRING;
@@ -44,22 +38,17 @@ public class GConsole : MonoBehaviour
 
     #endregion
 
+    static GConsole() 
+    {
+       SetColorCode((text, color) => text);
+    }
+
     #region Unity Callbacks
 
     void Awake()
     {
         instance = this;
         DontDestroyOnLoad(this);
-
-         INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
-         COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
-
-         ERROR_STRING = Color("Error: ", "EEAA00");
-         WARNING_STRING = Color("Warning: ", "CCAA00");
-         LOG_STRING = Color("Log: ", "AAAAAA");
-         EXCEPTION_STRING = Color("Exception: ", "FF0000");
-         ASSERT_STRING = Color("Assert: ", "0000FF");
-
     }
 
     void Start()
@@ -71,6 +60,18 @@ public class GConsole : MonoBehaviour
         }
         LoadBuiltInCommands();
 
+    }
+
+    private static void updateDefaultMessages() 
+    {
+       INVALID_COMMAND_STRING = Color("Invalid Command!", "FF0000");
+       COMMAND_NOT_FOUND_STRING = Color("Unrecognized command: ", "FF0000");
+
+       ERROR_STRING = Color("Error: ", "EEAA00");
+       WARNING_STRING = Color("Warning: ", "CCAA00");
+       LOG_STRING = Color("Log: ", "AAAAAA");
+       EXCEPTION_STRING = Color("Exception: ", "FF0000");
+       ASSERT_STRING = Color("Assert: ", "0000FF");
     }
 
     private void HandleUnityLog(string logString, string trace, LogType logType)
@@ -183,6 +184,12 @@ public class GConsole : MonoBehaviour
 
     #region Utility Methods
 
+    public static void SetColorCode(Func<string, string, string> code) 
+    {
+       Color = code;
+       updateDefaultMessages();
+    }
+
     //Extract the parameters from a command (removing the first word and trimming the rest).
     private static string ExtractParameters(string command, string root)
     {
@@ -202,9 +209,8 @@ public class GConsole : MonoBehaviour
     /// Get suggestions for a given (incomplete) input.
     /// </summary>
     /// <returns>A list of suggestions</returns>
-    public static List<GConsoleItem> GetSuggestionItems(string inputSoFar) {
-       // It is needed because GetSuggestions gives just string which difficult to use with GUI and suggestions
-       // for example its pain in the ass to use click on suggestion because it gives something like [color #00CCCC]dm_ipserver[/color] with description to Input control.
+    public static List<GConsoleItem> GetSuggestionItems(string inputSoFar) 
+    {
        return commands.Keys
           .Where(command => command.StartsWith(inputSoFar))
           .OrderBy(command => command.Length)
@@ -225,48 +231,6 @@ public class GConsole : MonoBehaviour
             .Select(c => c + (includeDescription ? " \t" + Color(commands[c].description, "CCCCCC") : String.Empty)) //Append description if requested
             .Select(c => Color(c.Substring(0,inputSoFar.Length), "00CCCC") + c.Substring(inputSoFar.Length)) //Color part typed so far
             .ToList(); //Convert to list
-    }
-
-    /// <summary>
-    /// Puts tags around text, if using NGUI, for coloring the text with the provided color code (Example: "FF0000")
-    /// </summary>
-    public static string Color(string text, string colorCode) 
-    {
-    	if (instance.useColoredText)
-    	{
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-        // Add custom ColorCodes instantiations here. Or may be use interfaces if frameworks count will be high?
-        switch (instance._colorCodes) {
-           case ColorCodes.Default:
-              sb.Append("<color=#")
-                .Append(colorCode)
-                .Append(">")
-                .Append(text)
-                .Append("</color>");
-              break;
-           case ColorCodes.NGUI:
-              sb.Append("[")
-                .Append(colorCode)
-                .Append("]")
-                .Append(text)
-                .Append("[-]");
-              break;
-           case ColorCodes.DFGUI:
-              sb.Append("[color #")
-                .Append(colorCode)
-                .Append("]")
-                .Append(text)
-                .Append("[/color]");
-              break;
-        }
-
-         return sb.ToString();
-    	}
-	   else 
-	   {
-          return text;
-      }
     }
 
     #endregion
@@ -353,13 +317,6 @@ public class GConsole : MonoBehaviour
     }
 
     #endregion
-
-    // Add custom ColorCodes here to make them avaliable in Unity Inspector. Instantiate them in GConsole.Awake()
-    public enum ColorCodes {
-       Default,
-       NGUI,
-       DFGUI,
-    }
 }
 
 /// <summary>
