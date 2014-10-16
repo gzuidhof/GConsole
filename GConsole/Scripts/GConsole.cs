@@ -189,7 +189,7 @@ public class GConsole : MonoBehaviour
     #region Utility Methods
 
     /// <summary>
-    /// Set the <see cref="Color"/> code that you GUI use.
+    /// Set the <see cref="Color"/> code that your GUI use.
     /// </summary>
     /// <param name="code">arg1 is text, arg2 is color</param>
     public static void SetColorCode(Func<string, string, string> code) 
