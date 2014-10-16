@@ -52,7 +52,7 @@ GConsole.AddCommand("quit", "Quits the application.", QuitApplication);
 * The first argument is the command name
 * The second argument is a description
 * **The third argument is a method which returns a string and takes one parameter: a string. It doesn't matter whether it's private, internal, protected or public. What this method returns is what is printed to the console.**
-* (OPTIONAL) Fourth argument: string, additional help text (shown when the user types "help < commandname > ".
+* (OPTIONAL) Fourth argument is additional help text. Shown when the user types `help <commandname>`.
 
 
 **Full Example**
