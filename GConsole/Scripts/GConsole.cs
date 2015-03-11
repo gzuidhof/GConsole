@@ -67,7 +67,8 @@ public class GConsole : MonoBehaviour
         //Register the Log Callback
         if (outputUnityLog)
         { 
-            Application.RegisterLogCallback(new Application.LogCallback(this.HandleUnityLog));
+			//Application.RegisterLogCallback(new Application.LogCallback(this.HandleUnityLog)); // If using earlier Unity then v5. use this line instead
+			Application.logMessageReceived += new Application.LogCallback(this.HandleUnityLog);
         }
         LoadBuiltInCommands();
 
