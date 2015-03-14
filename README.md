@@ -27,7 +27,7 @@ See, for instance, Valve's game developer console, which prints information that
 
 ###*Available UI Front-ends:*
 
-* [uGUI](https://github.com/MuNgLo/GConsole-uGUI/) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsole-uGUI/releases/tag/0.1.0)
+* [uGUI](https://github.com/MuNgLo/GConsole-uGUI/) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsole-uGUI/releases/tag/0.2.0))
 * [NGUI](https://github.com/Rahazan/GConsoleNGUI) (.unitypackage available [here](https://github.com/Rahazan/GConsoleNGUI/releases))
 * [OpenGUI](https://github.com/MuNgLo/GConsoleOGUI) by MuNgLo (.unitypackage available [here](https://github.com/MuNgLo/GConsoleOGUI/releases))
 * [DFGUI](https://github.com/baguwka/GConsoleDFGUI) by baguwka.
